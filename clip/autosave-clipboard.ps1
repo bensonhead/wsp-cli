@@ -1,3 +1,4 @@
+Write-Host "Wait for it..."
 function New-FileName([string]$prefix, [string]$suffix=".log") # {{{
 {
 if( $suffix.indexOf(".") -lt 0 ) { $suffix="."+$suffix }
@@ -17,7 +18,6 @@ return $np
 } #}}}
 function AutoSave-ClipImage([string]$prefix="") # {{{
 {
-Write-Host "Wait for it..."
 Add-Type -AssemblyName System.Windows.Forms
 $cl=[System.Type]"System.Windows.Forms.Clipboard"
 if( $cl -eq $null ) {
@@ -25,18 +25,25 @@ if( $cl -eq $null ) {
   return
 }
 $png=([System.Type]"System.Drawing.Imaging.ImageFormat")::Png
+Write-Host "# Ready to save. Copy image to clipboard, it will be saved automatically as a new file."
 while($true)
 {
-  Write-Host "Waiting for image in clipboard"
-  while(-not $cl::ContainsImage()) {
+  
+  if( $cl::ContainsImage() ) {
+    $filename=new-filename $([System.IO.Path]::Combine($PWD,[string]$prefix)) .png
+    $cl::GetImage().Save( $filename, $png)
+    Write-Host "#img`n$filename"
+  } elseif( $cl::ContainsText() ) {
+    Write-Host "#text"
+    Write-Host $cl::GetText()
+  } else {
     Start-Sleep -Milliseconds 200
+    continue
   }
-  $filename=new-filename $([System.IO.Path]::Combine($PWD,[string]$prefix)) .png
-  $cl::GetImage().Save( $filename, $png)
-  Write-Host "$filename"
   $cl::Clear()
+  # Write-Host "Waiting for image in clipboard"
 }
 }
 # }}}
 AutoSave-ClipImage $([System.IO.Path]::GetFileName($PWD))
-
+Read-Host
