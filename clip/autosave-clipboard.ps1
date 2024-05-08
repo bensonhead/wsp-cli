@@ -45,5 +45,6 @@ while($true)
 }
 }
 # }}}
-AutoSave-ClipImage $([System.IO.Path]::GetFileName($PWD))
+
+AutoSave-ClipImage $([System.IO.Path]::GetFileName($PWD) -replace "^[0-9-]*","")
 Read-Host
