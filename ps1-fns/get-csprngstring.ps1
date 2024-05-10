@@ -1,4 +1,4 @@
-function Get-CSPRNGString([int]$Count=22, $Alphabet) # {{{
+﻿function Get-CSPRNGString([int]$Count=22, $Alphabet) # {{{
 {
 $rnd=[System.Security.Cryptography.RandomNumberGenerator]::Create()
 if( $Alphabet -eq $null ) { $Alphabet = "A-Za-z0-9" }
@@ -43,4 +43,3 @@ $res -join ''
 }
 #}}}
 Set-Alias random Get-CSPRNGString
-
