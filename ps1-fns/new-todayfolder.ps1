@@ -1,6 +1,18 @@
 function New-TodayFolder { # {{{
+<#
+.SYNOPSIS
+	Create a new folder prefixed by current date and intiate its contents.
+
+.DESCRIPTION
+	Creates a place for a new task or subproject for folder-based workflow.
+	Creates a new folder in the current directory. The name of this new
+folder is current date followed by suffix.
+One empty file, `notes.txt` is created in this directory.
+.PARAMETER
+#>
   [CmdletBinding()]
   param (
+    # suffix to use for a new folder name
     [String]$suffix = ""
   )
   if( $suffix -ne "" ) {

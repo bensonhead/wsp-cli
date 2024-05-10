@@ -15,6 +15,28 @@ Select-String -allmatches -Pattern $pattern |
        $o
      }
   }
+<#
+.SYNOPSIS
+Parse input strings into powershell objects based on supplied regular expression.
+
+.INPUTS
+string
+
+.OUTPUTS
+PsCustomObject
+
+.DESCRIPTION
+Try to match each input line to supplied regular expression pattern. Each matching string becomes PsCustomObject on the output. If the Pattern has named subgroups, such as "(?<number>[0-9]+), the output object will have a property named "number" with a value of whatever matched against it.
+
+.LINK
+Convertfrom-String
+
+.EXAMPLE
+cat sample-log.lc | Convertfrom-Text -pattern "^(?<timestamp>\d+-\d+ \d+:\d+:\d+\.\d+)?\s+((?<uid>\d+)\s+)?(?<pid>\d+)\s+(?<tid>\d+)\s+(?<level>[VIEWFD])\s+(?<tag>[^:\s]+)\s*:\s*(?<message>.*)"
+Parses Android logcat entries and creates object with properties 
+timestamp, uid, pid, tid, level, tag and message
+
+#>
 } # }}}
 function ConvertTo-Pivot([string]$Row,[string]$Column,[string]$Value="") { #  {{{
  $input | Foreach-Object -begin {
