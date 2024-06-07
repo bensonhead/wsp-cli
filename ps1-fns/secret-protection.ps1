@@ -1,5 +1,5 @@
 ﻿Add-Type -AssemblyName System.Security
-function ConvertTo-ProtectedString([string]$secret, [switch]$SaveToClipboard, [string]$ExtraEntropyBase64="bv8Qhp87q3+2Q/SbZ5gWZg==")
+function ConvertTo-ProtectedString([string]$secret, [switch]$SaveToClipboard, [string]$ExtraEntropyBase64=$EXTRA_ENTROPY_FOR_SECRET_PROTECTION)
 {
   if( $secret -eq "" ) {
     $secret=Read-Host "Enter secret value"
@@ -16,7 +16,7 @@ function ConvertTo-ProtectedString([string]$secret, [switch]$SaveToClipboard, [s
   }
 }
 
-function ConvertFrom-ProtectedString([string]$protectedsecret, [switch]$SaveToClipboard, [string]$ExtraEntropyBase64="bv8Qhp87q3+2Q/SbZ5gWZg==")
+function ConvertFrom-ProtectedString([string]$protectedsecret, [switch]$SaveToClipboard, [string]$ExtraEntropyBase64=$EXTRA_ENTROPY_FOR_SECRET_PROTECTION)
 {
   $entropy=[System.Convert]::FromBase64String($ExtraEntropyBase64)
   $scope=[System.Security.Cryptography.DataProtectionScope]::CurrentUser
