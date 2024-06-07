@@ -2,7 +2,13 @@
 {
 $rnd=[System.Security.Cryptography.RandomNumberGenerator]::Create()
 if( $Alphabet -eq $null ) { $Alphabet = "A-Za-z0-9" }
-
+# Special case: if alphabet is bytes or ! return byte array
+if( @("!","bytes","base64") -contains $alphabet ) {
+  $b=[byte[]]@(0) * $Count
+  $rnd.GetBytes($b)
+  if( $alphabet -eq "base64" ) { return [System.convert]::ToBase64String($b) }
+  return $b
+}
 $uc,$lc,$dg=[System.Text.Encoding]::ascii.getbytes('aA0')
 
 

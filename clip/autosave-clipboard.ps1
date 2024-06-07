@@ -24,6 +24,7 @@ if( $cl -eq $null ) {
   Write-Error "Cannot access clipboard"
   return
 }
+$cl::Clear()
 $png=([System.Type]"System.Drawing.Imaging.ImageFormat")::Png
 Write-Host "# Ready to save. Copy image to clipboard, it will be saved automatically as a new file."
 while($true)
